@@ -1,50 +1,6 @@
 /******/ (function(modules) { // webpackBootstrap
-/******/ 	// install a JSONP callback for chunk loading
-/******/ 	function webpackJsonpCallback(data) {
-/******/ 		var chunkIds = data[0];
-/******/ 		var moreModules = data[1];
-/******/
-/******/
-/******/ 		// add "moreModules" to the modules object,
-/******/ 		// then flag all "chunkIds" as loaded and fire callback
-/******/ 		var moduleId, chunkId, i = 0, resolves = [];
-/******/ 		for(;i < chunkIds.length; i++) {
-/******/ 			chunkId = chunkIds[i];
-/******/ 			if(installedChunks[chunkId]) {
-/******/ 				resolves.push(installedChunks[chunkId][0]);
-/******/ 			}
-/******/ 			installedChunks[chunkId] = 0;
-/******/ 		}
-/******/ 		for(moduleId in moreModules) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-/******/ 				modules[moduleId] = moreModules[moduleId];
-/******/ 			}
-/******/ 		}
-/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
-/******/
-/******/ 		while(resolves.length) {
-/******/ 			resolves.shift()();
-/******/ 		}
-/******/
-/******/ 	};
-/******/
-/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
-/******/ 	// object to store loaded and loading chunks
-/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 	// Promise = chunk loading, 0 = chunk loaded
-/******/ 	var installedChunks = {
-/******/ 		"main": 0
-/******/ 	};
-/******/
-/******/
-/******/
-/******/ 	// script path function
-/******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + chunkId + ".bundle.js"
-/******/ 	}
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -70,65 +26,6 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
-/******/ 	// This file contains only the entry chunk.
-/******/ 	// The chunk loading function for additional chunks
-/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
-/******/ 		var promises = [];
-/******/
-/******/
-/******/ 		// JSONP chunk loading for javascript
-/******/
-/******/ 		var installedChunkData = installedChunks[chunkId];
-/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
-/******/
-/******/ 			// a Promise means "currently loading".
-/******/ 			if(installedChunkData) {
-/******/ 				promises.push(installedChunkData[2]);
-/******/ 			} else {
-/******/ 				// setup Promise in chunk cache
-/******/ 				var promise = new Promise(function(resolve, reject) {
-/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
-/******/ 				});
-/******/ 				promises.push(installedChunkData[2] = promise);
-/******/
-/******/ 				// start chunk loading
-/******/ 				var head = document.getElementsByTagName('head')[0];
-/******/ 				var script = document.createElement('script');
-/******/ 				var onScriptComplete;
-/******/
-/******/ 				script.charset = 'utf-8';
-/******/ 				script.timeout = 120;
-/******/ 				if (__webpack_require__.nc) {
-/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
-/******/ 				}
-/******/ 				script.src = jsonpScriptSrc(chunkId);
-/******/
-/******/ 				onScriptComplete = function (event) {
-/******/ 					// avoid mem leaks in IE.
-/******/ 					script.onerror = script.onload = null;
-/******/ 					clearTimeout(timeout);
-/******/ 					var chunk = installedChunks[chunkId];
-/******/ 					if(chunk !== 0) {
-/******/ 						if(chunk) {
-/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
-/******/ 							var realSrc = event && event.target && event.target.src;
-/******/ 							var error = new Error('Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')');
-/******/ 							error.type = errorType;
-/******/ 							error.request = realSrc;
-/******/ 							chunk[1](error);
-/******/ 						}
-/******/ 						installedChunks[chunkId] = undefined;
-/******/ 					}
-/******/ 				};
-/******/ 				var timeout = setTimeout(function(){
-/******/ 					onScriptComplete({ type: 'timeout', target: script });
-/******/ 				}, 120000);
-/******/ 				script.onerror = script.onload = onScriptComplete;
-/******/ 				head.appendChild(script);
-/******/ 			}
-/******/ 		}
-/******/ 		return Promise.all(promises);
-/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -182,22 +79,204 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/code/";
 /******/
-/******/ 	// on error function for async loading
-/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
-/******/
-/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
-/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-/******/ 	jsonpArray.push = webpackJsonpCallback;
-/******/ 	jsonpArray = jsonpArray.slice();
-/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-/******/ 	var parentJsonpFunction = oldJsonpFunction;
-/******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/main.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/ts-loader/index.js!./src/workers/render/render-worker.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./node_modules/ts-loader/index.js!./src/workers/render/render-worker.ts":
+/*!**********************************************************************!*\
+  !*** ./node_modules/ts-loader!./src/workers/render/render-worker.ts ***!
+  \**********************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./events */ "./src/workers/render/events.ts");
+/* harmony import */ var _utils_shader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/shader */ "./src/utils/shader.ts");
+
+
+
+self.addEventListener('message', function (event) {
+    var _a = event.data, type = _a.type, data = _a.data;
+    console.assert(type);
+    switch (type) {
+        case _events__WEBPACK_IMPORTED_MODULE_1__["initRenderEvent"].toString():
+            return initEventHandler(data);
+    }
+});
+function initEventHandler(data) {
+    return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+        var buffer, canvas, pointsCount, shaders, cells, view, frameId, lastT, renderLoop;
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log("renderer " + _events__WEBPACK_IMPORTED_MODULE_1__["initRenderEvent"]);
+                    console.log(data);
+                    buffer = data.buffer, canvas = data.canvas, pointsCount = data.pointsCount, shaders = data.shaders;
+                    cells = new Float32Array(buffer, 0, Math.floor(pointsCount * 4));
+                    console.log('Buffer readed', cells.length, cells.byteLength);
+                    console.log('Init view', canvas);
+                    return [4 /*yield*/, initView(canvas, pointsCount, shaders)];
+                case 1:
+                    view = _a.sent();
+                    view.render(cells);
+                    lastT = 0;
+                    renderLoop = function (t) {
+                        var dt = t - lastT;
+                        if (dt > 64) {
+                            dt = 64;
+                        }
+                        lastT = t;
+                        view.render(cells);
+                        frameId = requestAnimationFrame(renderLoop);
+                    };
+                    frameId = requestAnimationFrame(renderLoop);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function initView(canvas, pointsCount, shaders) {
+    return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+        var gl, particlesProgram, gridProgram, linesBuffer, linesBufferLength, w, h, scaleW, scaleH;
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    gl = canvas.getContext('webgl', { alpha: false, antialias: true });
+                    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+                    gl.clearColor(0, 0, 0, 1);
+                    gl.disable(gl.DEPTH_TEST);
+                    // gl.disable(gl.CULL_FACE);
+                    gl.enable(gl.BLEND);
+                    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+                    return [4 /*yield*/, Object(_utils_shader__WEBPACK_IMPORTED_MODULE_2__["getProgram"])(gl, 'particles shader', [
+                            [gl.VERTEX_SHADER, shaders.particlesVertex],
+                            [gl.FRAGMENT_SHADER, shaders.particlesFragment],
+                        ])];
+                case 1:
+                    particlesProgram = _a.sent();
+                    return [4 /*yield*/, Object(_utils_shader__WEBPACK_IMPORTED_MODULE_2__["getProgram"])(gl, 'grid shader', [
+                            [gl.VERTEX_SHADER, shaders.gridVertex],
+                            [gl.FRAGMENT_SHADER, shaders.gridFragment],
+                        ])];
+                case 2:
+                    gridProgram = _a.sent();
+                    linesBuffer = new Float32Array(512 * 1024);
+                    linesBufferLength = linesBuffer.length;
+                    w = canvas.width;
+                    h = canvas.height;
+                    scaleW = 2 / w;
+                    scaleH = 2 / h;
+                    return [2 /*return*/, {
+                            render: function (buffer) {
+                                gl.clear(gl.COLOR_BUFFER_BIT);
+                                gl.useProgram(particlesProgram);
+                                {
+                                    var uniformLocation = gl.getUniformLocation(particlesProgram, 'resolution');
+                                    gl.uniform2f(uniformLocation, w, h);
+                                }
+                                {
+                                    var attribLocation = gl.getAttribLocation(particlesProgram, 'scale');
+                                    gl.disableVertexAttribArray(attribLocation);
+                                    gl.vertexAttrib2f(attribLocation, scaleW, scaleH);
+                                }
+                                {
+                                    var attribLocation = gl.getAttribLocation(particlesProgram, 'velocity');
+                                    gl.enableVertexAttribArray(attribLocation);
+                                    gl.vertexAttribPointer(attribLocation, // index of attr
+                                    2, // pick two values X and Y
+                                    gl.FLOAT, // f32
+                                    false, // normalized
+                                    16, // stride (step in bytes)
+                                    // dx, dy
+                                    8);
+                                }
+                                {
+                                    var attribLocation = gl.getAttribLocation(particlesProgram, 'coord');
+                                    gl.enableVertexAttribArray(attribLocation);
+                                    gl.vertexAttribPointer(attribLocation, // index of attr
+                                    2, // pick two values X and Y
+                                    gl.FLOAT, // f32
+                                    false, // normalized
+                                    16, // stride (step in bytes)
+                                    0);
+                                }
+                                // console.log(buffer);
+                                // console.log(buffer);
+                                // debugger;
+                                gl.bufferData(gl.ARRAY_BUFFER, buffer, gl.DYNAMIC_DRAW);
+                                gl.drawArrays(gl.POINTS, 0, pointsCount);
+                                // draw grid
+                                gl.useProgram(gridProgram);
+                                {
+                                    var attribLocation = gl.getAttribLocation(gridProgram, 'scale');
+                                    gl.disableVertexAttribArray(attribLocation);
+                                    gl.vertexAttrib2f(attribLocation, scaleW, scaleH);
+                                }
+                                {
+                                    var attribLocation = gl.getAttribLocation(gridProgram, 'coord');
+                                    gl.enableVertexAttribArray(attribLocation);
+                                    gl.vertexAttribPointer(attribLocation, // index of attr
+                                    2, // pick two values X and Y
+                                    gl.FLOAT, // f32
+                                    false, // normalized
+                                    8, // stride (step in bytes)
+                                    0);
+                                }
+                                // const halfSideSize = sideSize * 0.5;
+                                // const qt = new QuadTree<Coord & { i: number }>(new AABB({ x: 0, y: 0 }, { w: halfSideSize, h: halfSideSize }));
+                                // measurer.measure();
+                                // for (let i = 0; i + 4 < buffer.length; i += 4) {
+                                //     qt.insert({ i, x: buffer[i], y: buffer[i + 1] });
+                                // }
+                                // measurer.measureEnd();
+                                // let offset = 0;
+                                // let getOffset = () => offset;
+                                // let setOffset = (v: number) => { offset = v };
+                                linesBuffer.fill(0, 0, linesBufferLength);
+                                // qt.renderNodes(linesBuffer, linesBufferLength, getOffset, setOffset);
+                                // modification
+                                // qt.traverse((items: (Coord & { i: number })[]) => {
+                                //     const l = items.length;
+                                //     for (let j = 0; j < l; j++) {
+                                //         const i1 = items[j];
+                                //         for(let k = 0; k < l; k++) {
+                                //             if (j === k) {
+                                //                 continue;
+                                //             }
+                                //             const i2 = items[k];
+                                //             if (Math.sqrt((i2.x - i1.x) ** 2 + (i2.y - i1.y) ** 2) < 10) {
+                                //                 const amp = Math.sqrt(Math.random() * 0.3 + 0.1) * 0.5 - 0.3;
+                                //                 const vec = Math.random() * 2.0 * 3.14;
+                                //                 buffer[i1.i + 2] += Math.sin(vec) * amp * 0.02; // dx
+                                //                 buffer[i1.i + 3] += Math.cos(vec) * amp * 0.02; // dy
+                                //                 buffer[i2.i + 2] += Math.sin(vec + 3.14) * amp * 0.02; // dx
+                                //                 buffer[i2.i + 3] += Math.cos(vec + 3.14) * amp * 0.02; // dy
+                                //             }
+                                //         }
+                                //     }
+                                // });
+                                gl.bufferData(gl.ARRAY_BUFFER, linesBuffer, gl.DYNAMIC_DRAW);
+                                gl.drawArrays(gl.LINES, 0, Math.floor(linesBufferLength / 2)); // 2 it's coord num (x, y)
+                            },
+                            resize: function (width, height) {
+                                canvas.width = width;
+                                canvas.height = height;
+                                gl.viewport(0, 0, width, height);
+                            }
+                        }];
+            }
+        });
+    });
+}
+
+
+/***/ }),
 
 /***/ "./node_modules/tslib/tslib.es6.js":
 /*!*****************************************!*\
@@ -417,164 +496,72 @@ function __importDefault(mod) {
 
 /***/ }),
 
-/***/ "./node_modules/worker-loader/dist/cjs.js?name=render-worker.[hash:5].js!./src/workers/render/render-worker.ts":
-/*!*********************************************************************************************************************!*\
-  !*** ./node_modules/worker-loader/dist/cjs.js?name=render-worker.[hash:5].js!./src/workers/render/render-worker.ts ***!
-  \*********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = function() {
-  return new Worker(__webpack_require__.p + "render-worker.3206a.js");
-};
-
-/***/ }),
-
-/***/ "./node_modules/worker-loader/dist/cjs.js?name=state-worker.[hash:5].js!./src/workers/state/state-worker.ts":
-/*!******************************************************************************************************************!*\
-  !*** ./node_modules/worker-loader/dist/cjs.js?name=state-worker.[hash:5].js!./src/workers/state/state-worker.ts ***!
-  \******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = function() {
-  return new Worker(__webpack_require__.p + "state-worker.cafd8.js");
-};
-
-/***/ }),
-
-/***/ "./src/main.ts":
-/*!*********************!*\
-  !*** ./src/main.ts ***!
-  \*********************/
-/*! no exports provided */
+/***/ "./src/utils/shader.ts":
+/*!*****************************!*\
+  !*** ./src/utils/shader.ts ***!
+  \*****************************/
+/*! exports provided: getProgram */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProgram", function() { return getProgram; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var worker_loader_name_state_worker_hash_5_js_workers_state_state_worker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! worker-loader?name=state-worker.[hash:5].js!./workers/state/state-worker */ "./node_modules/worker-loader/dist/cjs.js?name=state-worker.[hash:5].js!./src/workers/state/state-worker.ts");
-/* harmony import */ var worker_loader_name_state_worker_hash_5_js_workers_state_state_worker__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(worker_loader_name_state_worker_hash_5_js_workers_state_state_worker__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _workers_state_events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./workers/state/events */ "./src/workers/state/events.ts");
-/* harmony import */ var worker_loader_name_render_worker_hash_5_js_workers_render_render_worker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! worker-loader?name=render-worker.[hash:5].js!./workers/render/render-worker */ "./node_modules/worker-loader/dist/cjs.js?name=render-worker.[hash:5].js!./src/workers/render/render-worker.ts");
-/* harmony import */ var worker_loader_name_render_worker_hash_5_js_workers_render_render_worker__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(worker_loader_name_render_worker_hash_5_js_workers_render_render_worker__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _workers_render_events__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./workers/render/events */ "./src/workers/render/events.ts");
-// import { QuadTree } from './utils/quad-tree';
-// import { AABB } from './utils/aabb';
-// // import { Point, IPoint } from './utils/point';
-// import { getProgram } from './utils/shader';
-// import { Coord } from './utils/types';
-var _this = undefined;
 
-
-
-
-
-var stateWorker = new worker_loader_name_state_worker_hash_5_js_workers_state_state_worker__WEBPACK_IMPORTED_MODULE_1___default.a();
-var renderWorker = new worker_loader_name_render_worker_hash_5_js_workers_render_render_worker__WEBPACK_IMPORTED_MODULE_3___default.a();
-var pointsCount = 15000;
-(function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
-    var buffer, canvas, offscreen, getShaderSource, _a, pV, pF, gV, gF;
-    var _this = this;
-    return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                buffer = new SharedArrayBuffer(Math.floor(pointsCount * 4 * 4));
-                canvas = document.querySelector('canvas');
-                console.assert(canvas !== null);
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                offscreen = canvas.transferControlToOffscreen();
-                stateWorker.postMessage(Object(_workers_state_events__WEBPACK_IMPORTED_MODULE_2__["initStateEvent"])({
-                    pointsCount: pointsCount,
-                    buffer: buffer,
-                    width: canvas.width,
-                    height: canvas.height,
-                }));
-                window.addEventListener('click', function (e) {
-                    var _a = canvas.getBoundingClientRect(), left = _a.left, top = _a.top;
-                    var x = e.clientX - left - canvas.width / 2;
-                    var y = e.clientY - top - canvas.height / 2;
-                    console.log(x, y);
-                    stateWorker.postMessage(Object(_workers_state_events__WEBPACK_IMPORTED_MODULE_2__["triggerEvent"])({ x: x, y: -y }));
-                });
-                getShaderSource = function (name) { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, __webpack_require__("./src/shaders lazy recursive ^\\.\\/.*$")("./" + name)];
-                        case 1: return [2 /*return*/, (_a.sent()).default];
+function getProgram(gl, name, descriptors) {
+    return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+        var shaders, program, _i, shaders_1, shader, numAttribs, ii, attribInfo, numUniforms, ii, uniformInfo;
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Promise.all(descriptors.map(function (descriptor) { return compileShader.apply(void 0, [gl, name].concat(descriptor)); }))];
+                case 1:
+                    shaders = _a.sent();
+                    program = gl.createProgram();
+                    for (_i = 0, shaders_1 = shaders; _i < shaders_1.length; _i++) {
+                        shader = shaders_1[_i];
+                        gl.attachShader(program, shader);
                     }
-                }); }); };
-                return [4 /*yield*/, Promise.all([
-                        getShaderSource('particles.v.glsl'),
-                        getShaderSource('particles.f.glsl'),
-                        getShaderSource('grid.v.glsl'),
-                        getShaderSource('grid.f.glsl'),
-                    ])];
-            case 1:
-                _a = _b.sent(), pV = _a[0], pF = _a[1], gV = _a[2], gF = _a[3];
-                renderWorker.postMessage(Object(_workers_render_events__WEBPACK_IMPORTED_MODULE_4__["initRenderEvent"])({
-                    pointsCount: pointsCount,
-                    buffer: buffer,
-                    canvas: offscreen,
-                    shaders: {
-                        particlesVertex: pV,
-                        particlesFragment: pF,
-                        gridVertex: gV,
-                        gridFragment: gF,
+                    gl.linkProgram(program);
+                    console.groupCollapsed(name + " attributes:");
+                    numAttribs = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);
+                    for (ii = 0; ii < numAttribs; ++ii) {
+                        attribInfo = gl.getActiveAttrib(program, ii);
+                        if (!attribInfo) {
+                            break;
+                        }
+                        console.log(attribInfo.name, gl.getAttribLocation(program, attribInfo.name));
                     }
-                }), [offscreen]);
-                return [2 /*return*/];
-        }
+                    console.groupEnd();
+                    numUniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
+                    if (numUniforms) {
+                        console.groupCollapsed(name + " uniforms:");
+                        for (ii = 0; ii < numUniforms; ++ii) {
+                            uniformInfo = gl.getActiveUniform(program, ii);
+                            if (!uniformInfo) {
+                                break;
+                            }
+                            console.log(uniformInfo.name, gl.getAttribLocation(program, uniformInfo.name));
+                        }
+                        console.groupEnd();
+                    }
+                    // TODO: Add textures
+                    return [2 /*return*/, program];
+            }
+        });
     });
-}); })();
-
-
-/***/ }),
-
-/***/ "./src/shaders lazy recursive ^\\.\\/.*$":
-/*!****************************************************!*\
-  !*** ./src/shaders lazy ^\.\/.*$ namespace object ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./grid.f.glsl": [
-		"./src/shaders/grid.f.glsl",
-		0
-	],
-	"./grid.v.glsl": [
-		"./src/shaders/grid.v.glsl",
-		1
-	],
-	"./particles.f.glsl": [
-		"./src/shaders/particles.f.glsl",
-		2
-	],
-	"./particles.v.glsl": [
-		"./src/shaders/particles.v.glsl",
-		3
-	]
-};
-function webpackAsyncContext(req) {
-	var ids = map[req];
-	if(!ids) {
-		return Promise.resolve().then(function() {
-			var e = new Error("Cannot find module '" + req + "'");
-			e.code = 'MODULE_NOT_FOUND';
-			throw e;
-		});
-	}
-	return __webpack_require__.e(ids[1]).then(function() {
-		var id = ids[0];
-		return __webpack_require__.t(id, 7);
-	});
 }
-webpackAsyncContext.keys = function webpackAsyncContextKeys() {
-	return Object.keys(map);
-};
-webpackAsyncContext.id = "./src/shaders lazy recursive ^\\.\\/.*$";
-module.exports = webpackAsyncContext;
+function compileShader(gl, name, flavour, source) {
+    var shader = gl.createShader(flavour);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    console.groupCollapsed(name);
+    console.log(source);
+    console.log('shaderInfoLog:');
+    console.log(gl.getShaderInfoLog(shader));
+    console.groupEnd();
+    return shader;
+}
+
 
 /***/ }),
 
@@ -595,32 +582,7 @@ var initRenderEvent = function (data) { return ({
 initRenderEvent.toString = function () { return 'init-render'; };
 
 
-/***/ }),
-
-/***/ "./src/workers/state/events.ts":
-/*!*************************************!*\
-  !*** ./src/workers/state/events.ts ***!
-  \*************************************/
-/*! exports provided: initStateEvent, triggerEvent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initStateEvent", function() { return initStateEvent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "triggerEvent", function() { return triggerEvent; });
-var initStateEvent = function (data) { return ({
-    type: 'init-state',
-    data: data,
-}); };
-initStateEvent.toString = function () { return 'init-state'; };
-var triggerEvent = function (data) { return ({
-    type: 'trigger',
-    data: data,
-}); };
-triggerEvent.toString = function () { return 'trigger'; };
-
-
 /***/ })
 
 /******/ });
-//# sourceMappingURL=bundle.js.map
+//# sourceMappingURL=render-worker.3206a.js.map
